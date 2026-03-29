@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Éditeur d'Avis de Déchéance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            .print-area { border: none !important; box-shadow: none !important; margin: 0 !important; padding: 0 !important; }
+            body { background: white; }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 md:p-10 font-sans">
+
+    <div class="max-w-5xl mx-auto flex flex-col md:flex-row gap-8">
+        
+        <div class="w-full md:w-1/3 bg-white p-6 rounded-xl shadow-md no-print">
+            <h2 class="text-xl font-bold mb-6 text-blue-700">Paramètres de l'avis</h2>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium">Nom du Locataire</label>
+                    <input type="text" id="in-locataire" oninput="update()" value="M. Jean Dupont" class="w-full border p-2 rounded">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Adresse du Parking</label>
+                    <textarea id="in-parking" oninput="update()" class="w-full border p-2 rounded">Place n°45, 12 rue des Fleurs, 75000 Paris</textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Date d'effet</label>
+                    <input type="text" id="in-date" oninput="update()" value="15 avril 2026" class="w-full border p-2 rounded">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium">Motif</label>
+                    <input type="text" id="in-motif" oninput="update()" value="non-paiement répété des loyers" class="w-full border p-2 rounded">
+                </div>
+            </div>
+
+            <button onclick="window.print()" class="w-full mt-8 bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">
+                Imprimer ou PDF
+            </button>
+            <p class="text-xs text-gray-400 mt-4 text-center">Astuce : Choisissez "Enregistrer au format PDF" dans la liste des imprimantes.</p>
+        </div>
+
+        <div class="w-full md:w-2/3 bg-white p-12 shadow-2xl print-area" id="document">
+            <div class="text-right mb-12">Le <span id="out-date-du-jour"></span></div>
+            
+            <div class="mb-10">
+                <p class="font-bold underline">Bailleur :</p>
+                <p>Propriétaire du parking</p>
+            </div>
+
+            <div class="mb-12 ml-auto w-2/3 text-right">
+                <p class="font-bold">À l'attention de :</p>
+                <p id="out-locataire" class="italic"></p>
+            </div>
+
+            <h1 class="text-center text-xl font-bold uppercase mb-12 underline">
+                Avis de déchéance du terme et mise en demeure
+            </h1>
+
+            <div class="space-y-6 text-justify leading-relaxed">
+                <p>Madame, Monsieur,</p>
+                <p>Je vous informe par la présente de la résiliation de votre contrat de location concernant l'emplacement de parking situé au : <strong id="out-parking"></strong>.</p>
+                <p>Cette décision intervient suite au motif suivant : <span id="out-motif" class="font-semibold"></span>.</p>
+                <p>En conséquence, vous êtes déchu de tout titre d'occupation à compter du <strong id="out-date"></strong>. À cette date, la place devra être libérée de tout véhicule et les accès restitués.</p>
+                <p>À défaut, je me verrai contraint d'engager les procédures nécessaires.</p>
+                <p>Je vous prie d'agréer, l'expression de mes salutations distinguées.</p>
+            </div>
+
+            <div class="mt-20">
+                <p>Signature :</p>
+                <div class="border-b border-gray-300 w-40 mt-8"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function update() {
+            document.getElementById('out-locataire').innerText = document.getElementById('in-locataire').value;
+            document.getElementById('out-parking').innerText = document.getElementById('in-parking').value;
+            document.getElementById('out-date').innerText = document.getElementById('in-date').value;
+            document.getElementById('out-motif').innerText = document.getElementById('in-motif').value;
+        }
+        document.getElementById('out-date-du-jour').innerText = new Date().toLocaleDateString('fr-FR');
+        update();
+    </script>
+</body>
+</html>
