@@ -15,42 +15,42 @@
 
     <div class="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
         
-        <div class="w-full lg:w-1/3 bg-white p-6 rounded-xl shadow-sm border border-slate-200 no-print">
-            <h2 class="text-xl font-bold mb-6 text-indigo-700 flex items-center gap-2">
-                <span>⚙️</span> Configuration
-            </h2>
+        <div class="w-full lg:w-1/3 bg-white p-6 rounded-xl shadow-sm border border-slate-200 no-print space-y-6">
             
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-500">Nom du Locataire</label>
-                    <input type="text" id="in-locataire" oninput="update()" value="M. Jean Dupont" class="w-full border-slate-300 border p-2 rounded focus:ring-2 focus:ring-indigo-500 outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-500">Période (Mois/Année)</label>
-                    <input type="text" id="in-periode" oninput="update()" value="Avril 2026" class="w-full border-slate-300 border p-2 rounded">
-                </div>
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="block text-xs font-semibold uppercase text-slate-500">Loyer (€)</label>
-                        <input type="number" id="in-loyer" oninput="update()" value="70" class="w-full border-slate-300 border p-2 rounded">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold uppercase text-slate-500">Charges (€)</label>
-                        <input type="number" id="in-charges" oninput="update()" value="5" class="w-full border-slate-300 border p-2 rounded">
-                    </div>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-slate-500">Date limite de paiement</label>
-                    <input type="text" id="in-echeance" oninput="update()" value="5 avril 2026" class="w-full border-slate-300 border p-2 rounded">
+            <div>
+                <h3 class="text-sm font-bold text-indigo-700 uppercase mb-3 border-b pb-1 text-center">Mes Infos (Bailleur)</h3>
+                <div class="space-y-3">
+                    <input type="text" id="in-nom-bailleur" oninput="update()" placeholder="Ton Nom ou SCI" class="w-full border-slate-300 border p-2 rounded text-sm outline-none focus:ring-1 focus:ring-indigo-500">
+                    <textarea id="in-adresse-bailleur" oninput="update()" placeholder="Ton adresse postale" class="w-full border-slate-300 border p-2 rounded text-sm outline-none focus:ring-1 focus:ring-indigo-500" rows="2"></textarea>
                 </div>
             </div>
 
-            <div class="mt-8 space-y-3">
+            <div>
+                <h3 class="text-sm font-bold text-indigo-700 uppercase mb-3 border-b pb-1 text-center">Locataire & Parking</h3>
+                <div class="space-y-3">
+                    <input type="text" id="in-locataire" oninput="update()" placeholder="Nom du Locataire" value="M. Jean Dupont" class="w-full border-slate-300 border p-2 rounded text-sm">
+                    <textarea id="in-adresse-parking" oninput="update()" placeholder="Adresse du Parking (ex: Place n°4, 12 rue...)" class="w-full border-slate-300 border p-2 rounded text-sm" rows="2">Place n°45, 12 rue des Fleurs, 75000 Paris</textarea>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-sm font-bold text-indigo-700 uppercase mb-3 border-b pb-1 text-center">Période & Prix</h3>
+                <div class="space-y-3">
+                    <input type="text" id="in-periode" oninput="update()" value="Avril 2026" class="w-full border-slate-300 border p-2 rounded text-sm">
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="number" id="in-loyer" oninput="update()" value="70" class="w-full border-slate-300 border p-2 rounded text-sm">
+                        <input type="number" id="in-charges" oninput="update()" value="5" class="w-full border-slate-300 border p-2 rounded text-sm">
+                    </div>
+                    <input type="text" id="in-echeance" oninput="update()" value="5 avril 2026" class="w-full border-slate-300 border p-2 rounded text-sm">
+                </div>
+            </div>
+
+            <div class="pt-4 space-y-3">
                 <button onclick="downloadPDF()" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg hover:bg-indigo-700 transition flex items-center justify-center gap-2">
                     ⬇️ Télécharger le PDF
                 </button>
                 <button onclick="window.print()" class="w-full bg-slate-100 text-slate-700 font-semibold py-2 rounded-lg hover:bg-slate-200 transition">
-                    Print / Imprimer
+                    Imprimer
                 </button>
             </div>
         </div>
@@ -58,32 +58,32 @@
         <div class="w-full lg:w-2/3 bg-white p-12 document-shadow" id="avis-pdf">
             <div class="flex justify-between items-start mb-12">
                 <div>
-                    <p class="font-bold text-lg uppercase">Votre Nom / SCI</p>
-                    <p class="text-sm text-slate-600">Propriétaire Bailleur</p>
-                    <p class="text-sm text-slate-600">votre.email@exemple.com</p>
+                    <p id="out-nom-bailleur" class="font-bold text-lg uppercase text-indigo-900 leading-tight">Votre Nom / SCI</p>
+                    <p id="out-adresse-bailleur" class="text-sm text-slate-600 whitespace-pre-line">Votre adresse ici</p>
                 </div>
                 <div class="text-right">
                     <h1 class="text-2xl font-light tracking-widest uppercase text-slate-400">Avis d'échéance</h1>
-                    <p class="text-sm mt-2">Émis le : <span id="out-date-du-jour"></span></p>
+                    <p class="text-xs mt-2 text-slate-500 uppercase font-bold tracking-tighter">Émis le : <span id="out-date-du-jour"></span></p>
                 </div>
             </div>
             
-            <div class="mb-16 mt-10 ml-auto w-1/2 bg-slate-50 p-6 rounded border-l-4 border-indigo-500">
+            <div class="mb-16 mt-10 ml-auto w-1/2 bg-slate-50 p-6 rounded-r border-l-4 border-indigo-500">
                 <p class="text-xs uppercase font-bold text-indigo-600 mb-1">Destinataire</p>
-                <p id="out-locataire" class="text-lg font-medium italic"></p>
-                <p class="text-sm">Locataire du parking n°45</p>
+                <p id="out-locataire" class="text-lg font-medium italic mb-1"></p>
+                <p class="text-xs text-slate-500 font-bold uppercase">Location d'emplacement de parking</p>
             </div>
 
             <div class="mb-10">
                 <p class="mb-4">Objet : Appel de loyer pour la période de : <strong id="out-periode"></strong></p>
                 <p class="text-slate-600 text-sm leading-relaxed text-justify">
-                    Nous vous prions de bien vouloir trouver ci-dessous le détail de l'avis d'échéance pour votre emplacement de parking situé au 12 rue des Fleurs, 75000 Paris.
+                    Nous vous prions de bien vouloir trouver ci-dessous le détail de l'échéance concernant le parking situé à l'adresse suivante : 
+                    <br><strong id="out-adresse-parking" class="text-slate-800"></strong>
                 </p>
             </div>
 
             <table class="w-full mb-10 border-collapse">
                 <thead>
-                    <tr class="border-b-2 border-slate-200">
+                    <tr class="border-b-2 border-slate-200 text-slate-400 text-xs uppercase tracking-widest">
                         <th class="text-left py-3 font-semibold">Désignation</th>
                         <th class="text-right py-3 font-semibold">Montant</th>
                     </tr>
@@ -91,26 +91,26 @@
                 <tbody>
                     <tr class="border-b border-slate-100">
                         <td class="py-4 italic">Loyer parking mensuel</td>
-                        <td class="text-right py-4"><span id="out-loyer"></span>,00 €</td>
+                        <td class="text-right py-4 font-mono"><span id="out-loyer"></span>,00 €</td>
                     </tr>
                     <tr class="border-b border-slate-100">
                         <td class="py-4 italic">Provisions sur charges</td>
-                        <td class="text-right py-4"><span id="out-charges"></span>,00 €</td>
+                        <td class="text-right py-4 font-mono"><span id="out-charges"></span>,00 €</td>
                     </tr>
                     <tr class="bg-slate-50">
-                        <td class="py-4 font-bold text-indigo-700 uppercase tracking-wider">Total à régler TTC</td>
-                        <td class="text-right py-4 font-bold text-indigo-700 text-xl"><span id="out-total"></span>,00 €</td>
+                        <td class="py-4 font-bold text-indigo-700 uppercase tracking-wider px-2">Total à régler TTC</td>
+                        <td class="text-right py-4 font-bold text-indigo-700 text-xl px-2 font-mono"><span id="out-total"></span>,00 €</td>
                     </tr>
                 </tbody>
             </table>
 
             <div class="bg-indigo-50 p-4 rounded-lg mb-10 text-sm border border-indigo-100">
-                <p>⚠️ <strong>Date limite de paiement :</strong> <span id="out-echeance" class="underline"></span></p>
-                <p class="mt-2 text-slate-600">Mode de règlement souhaité : Virement bancaire.</p>
+                <p>⚠️ <strong>Date limite de paiement :</strong> <span id="out-echeance" class="underline font-bold text-indigo-900"></span></p>
+                <p class="mt-2 text-slate-600 italic text-xs underline">À régler par virement bancaire.</p>
             </div>
 
-            <div class="text-xs text-slate-400 mt-20 italic">
-                Note : Cet avis d'échéance ne fait pas office de quittance. Une quittance vous sera délivrée après réception effective du règlement.
+            <div class="text-[10px] text-slate-400 mt-20 italic border-t pt-4">
+                Note : Cet avis d'échéance ne constitue pas une quittance de loyer. Une quittance vous sera remise après réception complète du paiement.
             </div>
         </div>
     </div>
@@ -121,6 +121,10 @@
             const charges = parseInt(document.getElementById('in-charges').value) || 0;
             const total = loyer + charges;
 
+            // Mise à jour des textes
+            document.getElementById('out-nom-bailleur').innerText = document.getElementById('in-nom-bailleur').value || "Votre Nom / SCI";
+            document.getElementById('out-adresse-bailleur').innerText = document.getElementById('in-adresse-bailleur').value || "Votre Adresse postale";
+            document.getElementById('out-adresse-parking').innerText = document.getElementById('in-adresse-parking').value;
             document.getElementById('out-locataire').innerText = document.getElementById('in-locataire').value;
             document.getElementById('out-periode').innerText = document.getElementById('in-periode').value;
             document.getElementById('out-loyer').innerText = loyer;
@@ -134,7 +138,7 @@
             const locataire = document.getElementById('in-locataire').value;
             const options = {
                 margin:       10,
-                filename:     `Avis_Echeance_${locataire.replace(' ', '_')}.pdf`,
+                filename:     `Avis_Echeance_${locataire.replace(/\s+/g, '_')}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
